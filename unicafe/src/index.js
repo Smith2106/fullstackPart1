@@ -30,12 +30,14 @@ const Statistics = ({good, neutral, bad}) => {
 
   return (
     <div>
-      <Stat label="Good" value={good} />
-      <Stat label="Neutral" value={neutral} />
-      <Stat label="Bad" value={bad} />
-      <Stat label="Total" value={total} />
-      <Stat label="Average" value={average} />
-      <Stat label="Positive" value={positive} unit=" %"/>
+      <table>
+        <Stat label="Good" value={good} />
+        <Stat label="Neutral" value={neutral} />
+        <Stat label="Bad" value={bad} />
+        <Stat label="Total" value={total} />
+        <Stat label="Average" value={average} />
+        <Stat label="Positive" value={positive} unit=" %"/>
+      </table>
     </div>
   )
 }
@@ -43,9 +45,12 @@ const Statistics = ({good, neutral, bad}) => {
 const Stat = ({label, value, unit}) => {
 
   return (
-    <div>
-      {label} {value}{unit}
-    </div>
+    <>
+      <tr>
+        <td>{label}</td>
+        <td>{value}{unit}</td>
+      </tr>
+    </>
   )
 }
 
