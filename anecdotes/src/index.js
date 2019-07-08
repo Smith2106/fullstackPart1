@@ -9,15 +9,26 @@ const Button = ({label, onClick}) => {
   )
 }
 
-const Anecdote = ({anecdote}) => <div>{anecdote}</div>
+const Anecdote = ({anecdote, votes}) => {
+  return (
+    <div>
+      {anecdote}
+      <br />
+      has {votes} votes
+    </div>
+  )
+}
 
-const Votes = ({votes}) => <div>has {votes} votes</div>
+const Header = ({title}) => <><h1>{title}</h1></>
 
 const App = (props) => {
   const genRandInd = () => Math.floor(Math.random() * props.anecdotes.length)
 
   const [selected, setSelected] = useState(genRandInd())
   const [votes, setVotes] = useState(Array(props.anecdotes.length).fill(0))
+
+
+  const mostVotesInd = votes.reduce((bestIndexSoFar, currentlyTestedValue, currentlyTestedIndex, array) => currentlyTestedValue > array[bestIndexSoFar] ? currentlyTestedIndex : bestIndexSoFar, 0)
 
   const randomizeSelected = () => {
     setSelected(genRandInd())
@@ -31,10 +42,12 @@ const App = (props) => {
 
   return (
     <div>
-      <Anecdote anecdote={props.anecdotes[selected]} />
-      <Votes votes={votes[selected]} />
+      <Header title="Anecdote of the Day" />
+      <Anecdote anecdote={props.anecdotes[selected]} votes={votes[selected]} />
       <Button label= "Vote" onClick={addVote} />
       <Button label="Next Anecdote" onClick={randomizeSelected} />
+      <Header title="Anecdote with Most Votes" />
+      <Anecdote anecdote={props.anecdotes[mostVotesInd]} votes={votes[mostVotesInd]} />
     </div>
   )
 }
