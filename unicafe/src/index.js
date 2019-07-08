@@ -17,14 +17,30 @@ const Header = ({title}) => {
   )
 }
 
-const Statistic = ({label, value, unit}) => {
-  if (isNaN(value)) {
+const Statistics = ({good, neutral, bad}) => {
+  if (good === 0 && neutral === 0 && bad === 0) {
     return (
-      <div>
-        {label} No statistics yet
-      </div>
+      <div>No feedback given</div>
     )
   }
+
+  const total = good + neutral + bad
+  const average = ((good * 1) + (neutral * 0) + (bad * -1)) / total
+  const positive = (good / total) * 100
+
+  return (
+    <div>
+      <Stat label="Good" value={good} />
+      <Stat label="Neutral" value={neutral} />
+      <Stat label="Bad" value={bad} />
+      <Stat label="Total" value={total} />
+      <Stat label="Average" value={average} />
+      <Stat label="Positive" value={positive} unit=" %"/>
+    </div>
+  )
+}
+
+const Stat = ({label, value, unit}) => {
 
   return (
     <div>
@@ -38,9 +54,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const total = good + neutral + bad
-  const average = ((good * 1) + (neutral * 0) + (bad * -1)) / total
-  const positive = (good / total) * 100
 
   return (
     <div>
@@ -49,12 +62,7 @@ const App = () => {
       <Button name="Neutral" onClick={() => setNeutral(neutral + 1)} />
       <Button name="Bad" onClick={() => setBad(bad + 1)} />
       <Header title="Statistics" />
-      <Statistic label="Good" value={good} />
-      <Statistic label="Neutral" value={neutral} />
-      <Statistic label="Bad" value={bad} />
-      <Statistic label="Total" value={total} />
-      <Statistic label="Average" value={average} />
-      <Statistic label="Positive" value={positive} unit=" %"/>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
